@@ -11,7 +11,6 @@
       "@locales/*": ["src/locales/*"],
       "@models/*": ["src/models/*"],
       "@pages/*": ["src/pages/*"],
-      "@redux/*": ["src/redux/*"],
       "@services/*": ["src/services/*"],
       "@theme/*": ["src/theme/*"],
       "@root/*": ["src/*"]

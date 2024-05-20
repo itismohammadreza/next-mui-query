@@ -1,17 +1,19 @@
 import type { AppProps } from "next/app";
-import { StoreProvider } from "@redux/StoreProvider";
 import { ThemeProvider } from "@theme/theme";
 import '@locales/i18n';
 import { Loading } from "@components/Loading";
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+
+const queryClient = new QueryClient();
 
 const App = ({Component, pageProps}: AppProps) => {
   return (
-      <StoreProvider>
+      <QueryClientProvider client={queryClient}>
         <ThemeProvider>
           <Component {...pageProps} />
           <Loading/>
         </ThemeProvider>
-      </StoreProvider>
+      </QueryClientProvider>
   )
 }
 

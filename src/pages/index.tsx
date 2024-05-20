@@ -1,13 +1,22 @@
 import { useLocales } from "@hooks/useLocales";
 import { Button } from "@mui/material";
-import { useApp } from "@hooks/useApp";
 import Link from "next/link";
+import { useApp } from "@hooks/useApp";
+import { useQuery } from "@tanstack/react-query";
+import { getMovies } from "@services/dataService";
 
 const Home = () => {
   const {t, changeLocale, currentLocale} = useLocales();
-  const {paletteMode} = useApp();
+  const {paletteMode, setAppConfig} = useApp();
+  const {data, isLoading, refetch} = useQuery({
+    queryKey: ["data"],
+    queryFn: getMovies,
+    enabled: false
+  });
 
   const changeThemeClick = async () => {
+    await refetch();
+    setAppConfig({paletteMode: paletteMode === 'dark' ? 'light' : 'dark'});
   }
 
   return (
