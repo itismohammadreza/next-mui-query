@@ -1,6 +1,6 @@
 import { httpService } from "@services/api/httpService";
 import { redirect } from "next/navigation";
-import { useUser } from "@hooks/useUser";
+import { globalStateService } from "@services/globalStateService";
 
 const endpoint = "auth";
 
@@ -8,7 +8,7 @@ const hasPermission = (input: string[] | string) => {
   if (!input || !input.length) {
     return true
   }
-  const {permissions} = useUser();
+  const {permissions} = globalStateService.get().user;
   if (Array.isArray(input)) {
     return permissions.some(p => input.includes(p))
   }
