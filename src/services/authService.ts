@@ -1,6 +1,6 @@
-import { getState } from "@redux/store/rootStore";
 import { httpService } from "@services/api/httpService";
 import { redirect } from "next/navigation";
+import { useUser } from "@hooks/useUser";
 
 const endpoint = "auth";
 
@@ -8,11 +8,11 @@ const hasPermission = (input: string[] | string) => {
   if (!input || !input.length) {
     return true
   }
-  const userPermissions = getState().user.permissions;
+  const {permissions} = useUser();
   if (Array.isArray(input)) {
-    return userPermissions.some(p => input.includes(p))
+    return permissions.some(p => input.includes(p))
   }
-  return userPermissions.includes(input)
+  return permissions.includes(input)
 }
 
 const login = (data: any) => {
