@@ -1,8 +1,9 @@
 import type { AppProps } from "next/app";
 import { ThemeProvider } from "@theme/theme";
-import '@locales/i18n';
 import { Loading } from "@components/Loading";
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import { Toast } from "@components/Toast";
+import '@locales/i18n';
 
 const queryClient = new QueryClient();
 
@@ -12,6 +13,7 @@ const App = ({Component, pageProps}: AppProps) => {
         <ThemeProvider>
           <Component {...pageProps} />
           <Loading/>
+          <Toast/>
         </ThemeProvider>
       </QueryClientProvider>
   )
