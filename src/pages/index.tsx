@@ -3,14 +3,14 @@ import { Button } from "@mui/material";
 import Link from "next/link";
 import { useApp } from "@hooks/useApp";
 import { useQuery } from "@tanstack/react-query";
-import { getMovies } from "@services/dataService";
+import { dataService } from "@services/dataService";
 
 const Home = () => {
   const {t, changeLocale, currentLocale} = useLocales();
   const {paletteMode, setAppConfig} = useApp();
   const {data, isLoading, refetch} = useQuery({
     queryKey: ["data"],
-    queryFn: getMovies,
+    queryFn: dataService.getMovies,
     enabled: false
   });
 
