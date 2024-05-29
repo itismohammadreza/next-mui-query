@@ -1,10 +1,12 @@
 import { Navbar } from "@components/Navbar";
 import { ReactNode } from "react";
 
-export default function MainLayout({ children }: Readonly<{ children: ReactNode }>) {
+const MainLayout = ({children}: Readonly<{ children: ReactNode }>) =>{
   return (
-    <Navbar>
-      {children}
-    </Navbar>
+      <Navbar>
+        {children}
+      </Navbar>
   );
 }
+
+export default MainLayout;
