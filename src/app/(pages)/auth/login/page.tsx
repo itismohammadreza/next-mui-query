@@ -1,25 +1,26 @@
+"use client"
 import { LoadingButton } from "@mui/lab";
 import TextFieldElement from "@components/forms/TextFieldElement";
 import { FormContainer } from "@components/forms/FormContainer";
 import CheckboxElement from "@components/forms/CheckboxElement";
-import { useQuery } from "@tanstack/react-query";
-import { dataService } from "@services/dataService";
+import { useMutation } from "@tanstack/react-query";
+import { authService } from "@services/authService";
+import { redirect } from "next/navigation";
 
 const Login = () => {
-  const {data, refetch, isFetching} = useQuery({
-    queryKey: ["Unique Key"],
-    queryFn: () => dataService.getMovies(),
-    enabled: false
+  const {isPending, mutate: login} = useMutation({
+    mutationFn: (value) => authService.login(value)
   });
 
-  const login = async (value: any) => {
-    await refetch()
-    console.log(value)
+  const onSubmit = async (value: any) => {
+    const res = login(value);
+    localStorage.setItem('token', res.token);
+    redirect('/');
   }
+
   const onError = (error: any) => {
     console.log(error)
   }
-
 
   return (
       <div>
@@ -30,7 +31,7 @@ const Login = () => {
               name="ali"
               onChange={v => console.log(v)}/>
         </FormContainer>
-        <FormContainer defaultValues={{firstName: 'sss'}} onError={onError} onSuccess={login}>
+        <FormContainer defaultValues={{firstName: 'sss'}} onError={onError} onSuccess={onSubmit}>
           <>
             <TextFieldElement
                 label="Error"
@@ -41,7 +42,7 @@ const Login = () => {
                 label="Error"
                 name="lastName"
                 rules={{required: 'is required'}}/>
-            <LoadingButton loading={isFetching} type="submit" variant="outlined">
+            <LoadingButton loading={isPending} type="submit" variant="outlined">
               Submit
             </LoadingButton>
           </>
