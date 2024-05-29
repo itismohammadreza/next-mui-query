@@ -8,10 +8,12 @@ import '@locales/i18n';
 const queryClient = new QueryClient();
 
 const App = ({Component, pageProps}: AppProps) => {
+  const getLayout = Component.getLayout ?? ((page) => page);
+
   return (
       <QueryClientProvider client={queryClient}>
         <ThemeProvider>
-          <Component {...pageProps} />
+          {getLayout(<Component {...pageProps} />)}
           <Loading/>
           <Toast/>
         </ThemeProvider>

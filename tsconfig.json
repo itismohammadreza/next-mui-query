@@ -13,6 +13,7 @@
       "@pages/*": ["src/pages/*"],
       "@services/*": ["src/services/*"],
       "@theme/*": ["src/theme/*"],
+      "@utils/*": ["src/utils/*"],
       "@root/*": ["src/*"]
     },
     "allowJs": true,
