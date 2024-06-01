@@ -10,9 +10,9 @@ const hasPermission = (input: string[] | string) => {
   }
   const {user} = globalStateService.get();
   if (Array.isArray(input)) {
-    return user.permissions.some(p => input.includes(p))
+    return user.permissions?.some(p => input.includes(p))
   }
-  return user.permissions.includes(input)
+  return user.permissions?.includes(input)
 }
 
 const login = (data: any) => {
@@ -28,9 +28,14 @@ const logout = () => {
   redirect('/auth/login')
 }
 
+const hasToken = () => {
+  return !!localStorage.getItem('token');
+}
+
 export const authService = {
   hasPermission,
   login,
   register,
   logout,
+  hasToken
 }
