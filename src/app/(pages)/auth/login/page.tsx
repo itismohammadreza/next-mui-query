@@ -1,53 +1,65 @@
 "use client"
 import { LoadingButton } from "@mui/lab";
-import TextFieldElement from "@components/forms/TextFieldElement";
-import { FormContainer } from "@components/forms/FormContainer";
-import CheckboxElement from "@components/forms/CheckboxElement";
 import { useMutation } from "@tanstack/react-query";
 import { authService } from "@services/authService";
-import { redirect } from "next/navigation";
+import { useRouter } from "next/navigation";
+import { Container, Grid, Typography } from "@mui/material";
+import { FormElements } from "@components/forms/FormElements";
+import Link from "next/link";
 
 const Login = () => {
-  const {isPending, mutate: login} = useMutation({
+  const router = useRouter();
+
+  const {isPending, mutateAsync: login} = useMutation({
     mutationFn: (value) => authService.login(value)
   });
 
   const onSubmit = async (value: any) => {
-    const res = login(value);
-    localStorage.setItem('token', res.token);
-    redirect('/');
-  }
-
-  const onError = (error: any) => {
-    console.log(error)
+    try {
+      const res = await login(value);
+      localStorage.setItem('token', res.token);
+      router.push('/');
+    } catch {
+    }
   }
 
   return (
-      <div>
-        Login
-        <FormContainer>
-          <TextFieldElement
-              label="Error"
-              name="ali"
-              onChange={v => console.log(v)}/>
-        </FormContainer>
-        <FormContainer defaultValues={{firstName: 'sss'}} onError={onError} onSuccess={onSubmit}>
-          <>
-            <TextFieldElement
-                label="Error"
-                name="firstName"
-                parseError={(x) => <span>{x.message + '2'}</span>}
-                rules={{required: 'is required', minLength: {value: 3, message: 'min length'}}}/>
-            <CheckboxElement
-                label="Error"
-                name="lastName"
-                rules={{required: 'is required'}}/>
-            <LoadingButton loading={isPending} type="submit" variant="outlined">
-              Submit
-            </LoadingButton>
-          </>
-        </FormContainer>
-      </div>
+      <FormElements.Container onSuccess={onSubmit}>
+        <Container component="main" maxWidth="xs" sx={{marginTop: 8}}>
+          <Typography component="h1" marginBottom={2} variant="h5" textAlign="center"> Sign in </Typography>
+          <Grid container spacing={2}>
+            <Grid item xs={12}>
+              <FormElements.TextField
+                  fullWidth
+                  label="Email Address"
+                  name="email"
+                  autoComplete="email"
+                  rules={{required: 'Required'}}/>
+            </Grid>
+            <Grid item xs={12}>
+              <FormElements.TextField
+                  fullWidth
+                  name="password"
+                  label="Password"
+                  type="password"
+                  autoComplete="current-password"
+                  rules={{required: 'Required'}}/>
+              <FormElements.Checkbox name="rememberMe" label="Remember me"/>
+            </Grid>
+          </Grid>
+          <LoadingButton fullWidth sx={{mt: 3, mb: 2}} loading={isPending} type="submit" variant="contained">
+            Sign In
+          </LoadingButton>
+          <Grid container>
+            <Grid item xs>
+              <Link href="/auth/forget-password" variant="body2"> Forgot password? </Link>
+            </Grid>
+            <Grid item>
+              <Link href="/auth/register" variant="body2"> Don't have an account? Sign Up </Link>
+            </Grid>
+          </Grid>
+        </Container>
+      </FormElements.Container>
   )
 }
 
