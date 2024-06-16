@@ -1,5 +1,5 @@
-"use client"
-import { useState, useRef, useLayoutEffect, useEffect, SetStateAction, } from "react";
+'use client'
+import { useState, useRef, useLayoutEffect, useEffect, SetStateAction } from "react";
 
 type Set<T> = (newState: SetStateAction<T>, callback?: (newState: T) => void) => void;
 

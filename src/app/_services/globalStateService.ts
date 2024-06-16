@@ -1,3 +1,4 @@
+'use client'
 import { globalState } from "@utils/globalState";
 import { RootState } from "@models/common";
 import { globalConfig } from "@config/globalConfig";
