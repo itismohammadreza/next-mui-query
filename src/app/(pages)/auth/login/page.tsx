@@ -18,8 +18,8 @@ const Login = () => {
     mutationFn: async (value: User) => {
       try {
         const {data} = await dataService.login(value);
-        const {data: user} = await dataService.getProfile(data.access_token);
-        cookieService.set('token', data.access_token, 5);
+        cookieService.set('token', data.access_token, {maxAge: 36000});
+        const {data: user} = await dataService.getProfile();
         globalStateService.set(prev => ({...prev, user}));
         return user;
       } catch {

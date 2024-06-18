@@ -1,6 +1,7 @@
 import { httpService } from "@services/api/httpService";
 import { Product, User } from "@models/business";
 import { globalStateService } from "@services/globalStateService";
+import { cookieService } from "@utils/coockieService";
 
 const getProducts = () => {
   return httpService.get<Product[]>('/products');
@@ -26,8 +27,8 @@ const register = (data: User) => {
   return httpService.post('auth/register', data);
 }
 
-const getProfile = (token: string) => {
-  return httpService.get<User>('auth/profile', {headers: {Authorization: `Bearer ${token}`}});
+const getProfile = () => {
+  return httpService.get<User>('auth/profile');
 }
 
 const hasPermission = (input: string[] | string) => {
@@ -42,12 +43,12 @@ const hasPermission = (input: string[] | string) => {
 }
 
 const logout = () => {
-  localStorage.removeItem('token');
+  cookieService.del('token');
   globalStateService.set(prev => ({...prev, user: undefined}));
 }
 
 const hasToken = () => {
-  return !!localStorage.getItem('token');
+  return !!cookieService.get('token');
 }
 
 export const dataService = {
