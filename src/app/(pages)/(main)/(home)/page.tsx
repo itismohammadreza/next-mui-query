@@ -1,39 +1,50 @@
 "use client"
 import { useLocales } from "@hooks/useLocales";
-import { Button } from "@mui/material";
+import { Button, Typography } from "@mui/material";
 import { useApp } from "@hooks/useApp";
 import { useQuery } from "@tanstack/react-query";
-import { dataService } from "@services/dataService";
-import Link from "next/link";
+import { dataService } from "@services/api/dataService";
+import { LoadingButton } from "@mui/lab";
+import { Page } from "@components/Page";
+import { useUser } from "@hooks/useUser";
 
 const Home = () => {
-  const {t, changeLocale, currentLocale} = useLocales();
+  const user = useUser();
+  const {changeLocale, currentLocale} = useLocales();
   const {paletteMode, setAppConfig} = useApp();
-  const {data, isLoading, refetch} = useQuery({
+  const {isFetching, refetch} = useQuery({
     queryKey: ["data"],
-    queryFn: dataService.getMovies,
+    queryFn: dataService.getProducts,
     enabled: false
   });
 
-  const changeThemeClick = async () => {
-    await refetch();
-    setAppConfig({paletteMode: paletteMode === 'dark' ? 'light' : 'dark'});
-  }
-
   return (
-      <>
-        <Link href="/auth/login">Login</Link>
-        <Link href="/about">About</Link>
-        <Button variant="contained" onClick={changeThemeClick}>
+      <Page title="Home">
+        <Typography variant="h6" component="span"> Theme: </Typography>
+        <Button onClick={() => setAppConfig({paletteMode: paletteMode === 'dark' ? 'light' : 'dark'})}>
           {paletteMode}
         </Button>
-        <Button variant="contained"
-                onClick={() => changeLocale(currentLocale == "faIR" ? "enUS" : "faIR")}>
+        <br/>
+        <Typography variant="h6" component="span"> Locale: </Typography>
+        <Button onClick={() => changeLocale(currentLocale == "faIR" ? "enUS" : "faIR")}>
           {currentLocale}
         </Button>
-        <h2>{t('title')}</h2>
-        تست فارسی 123
-      </>
+        <br/>
+        <Typography variant="h6" component="span"> Request: </Typography>
+        <LoadingButton loading={isFetching} onClick={() => refetch()}>
+          Call
+        </LoadingButton>
+        <br/>
+        {
+            user && (
+                <>
+                  <Typography variant="h6" component="span"> Logged In User: </Typography>
+                  {user.name} - {user.email}
+                  <Button color="error" onClick={() => dataService.logout()}> Logout </Button>
+                </>
+            )
+        }
+      </Page>
   )
 }
 
