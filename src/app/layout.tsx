@@ -4,8 +4,8 @@ import { Metadata } from "next";
 
 export const metadata: Metadata = {
   title: {
-    template: '%s | Nextjs Base',
-    default: 'Nextjs Base',
+    template: '%s | Nextjs Query Base',
+    default: 'Nextjs Query Base',
   },
   description: 'The official Next.js base project.',
 };
