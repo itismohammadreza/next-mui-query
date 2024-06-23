@@ -24,6 +24,8 @@ import LightModeIcon from '@mui/icons-material/LightMode';
 import ModeNightIcon from '@mui/icons-material/ModeNight';
 import { useApp } from "@hooks/useApp";
 import RemoveIcon from '@mui/icons-material/Remove';
+import LToRIcon from '@mui/icons-material/FormatTextdirectionLToR';
+import RToLIcon from '@mui/icons-material/FormatTextdirectionRToL';
 
 interface NavbarProps extends WithChildren {
   window?: () => Window;
@@ -33,7 +35,7 @@ const drawerWidth = 240;
 
 export const Navbar = (props: NavbarProps) => {
   const {t} = useLocales();
-  const {paletteMode, setAppConfig} = useApp();
+  const {paletteMode, rtl, setAppConfig} = useApp();
   const currentUser = useUser();
   const pathname = usePathname();
   const {window, children} = props;
@@ -43,6 +45,14 @@ export const Navbar = (props: NavbarProps) => {
     {text: t('login'), href: '/auth/login', icon: <RemoveIcon/>},
     {text: t('protected'), href: '/protected', icon: <RemoveIcon/>},
   ];
+
+  const handleDirectionToggle = () => {
+    setAppConfig({rtl: !rtl});
+  }
+
+  const handleThemeToggle = () => {
+    setAppConfig({paletteMode: paletteMode == "light" ? "dark" : "light"});
+  }
 
   const handleDrawerToggle = () => {
     setOpen(prev => !prev);
@@ -79,16 +89,14 @@ export const Navbar = (props: NavbarProps) => {
               {t("appTitle")}
             </Typography>
             {
-                paletteMode === 'dark' &&
-                <IconButton onClick={() => setAppConfig({paletteMode: 'light'})} color="inherit">
-                  <LightModeIcon/>
-                </IconButton>
+              <IconButton onClick={handleDirectionToggle} color="inherit">
+                {rtl ? <LToRIcon/> : <RToLIcon/>}
+              </IconButton>
             }
             {
-                paletteMode === 'light' &&
-                <IconButton onClick={() => setAppConfig({paletteMode: 'dark'})} color="inherit">
-                  <ModeNightIcon/>
-                </IconButton>
+              <IconButton onClick={handleThemeToggle} color="inherit">
+                {paletteMode === 'dark' ? <LightModeIcon/> : <ModeNightIcon/>}
+              </IconButton>
             }
             {
                 currentUser &&
