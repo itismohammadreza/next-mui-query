@@ -7,7 +7,15 @@ import { WithChildren } from "@models/common";
 import '@locales/i18n';
 
 export const Providers = ({children}: WithChildren) => {
-  const queryClient = new QueryClient();
+  const queryClient = new QueryClient({
+    defaultOptions: {
+      queries: {
+        refetchOnWindowFocus: false,
+        retry: 3
+      }
+    }
+  });
+
 
   return (
       <ThemeProvider>
