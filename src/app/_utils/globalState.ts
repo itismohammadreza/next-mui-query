@@ -1,5 +1,5 @@
 'use client'
-import { useState, useRef, useLayoutEffect, useEffect, SetStateAction } from "react";
+import { SetStateAction, useEffect, useLayoutEffect, useRef, useState } from "react";
 
 type Set<T> = (newState: SetStateAction<T>, callback?: (newState: T) => void) => void;
 
@@ -25,9 +25,9 @@ interface Options<T> {
 type Comparator<TSelected = unknown> = (a: TSelected, b: TSelected) => boolean;
 
 const useIsomorphicLayoutEffect =
-  typeof window !== "undefined" || typeof document !== "undefined"
-    ? useLayoutEffect
-    : useEffect;
+    typeof window !== "undefined" || typeof document !== "undefined"
+        ? useLayoutEffect
+        : useEffect;
 
 const equ: Comparator = (a, b) => a === b;
 

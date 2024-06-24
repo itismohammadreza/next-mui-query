@@ -15,17 +15,17 @@ import {
 } from '@mui/material';
 import MenuIcon from '@mui/icons-material/Menu';
 import { WithChildren } from "@models/common";
-import { useLocales } from "@hooks/useLocales";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useUser } from "@hooks/useUser";
 import { AccountCircle } from "@mui/icons-material";
 import LightModeIcon from '@mui/icons-material/LightMode';
 import ModeNightIcon from '@mui/icons-material/ModeNight';
-import { useApp } from "@hooks/useApp";
+import { useConfig } from "@hooks/useConfig";
 import RemoveIcon from '@mui/icons-material/Remove';
 import LToRIcon from '@mui/icons-material/FormatTextdirectionLToR';
 import RToLIcon from '@mui/icons-material/FormatTextdirectionRToL';
+import { useTranslation } from "react-i18next";
 
 interface NavbarProps extends WithChildren {
   window?: () => Window;
@@ -34,8 +34,8 @@ interface NavbarProps extends WithChildren {
 const drawerWidth = 240;
 
 export const Navbar = (props: NavbarProps) => {
-  const {t} = useLocales();
-  const {paletteMode, rtl, setAppConfig} = useApp();
+  const {t} = useTranslation();
+  const [{paletteMode, rtl, locale}, updateConfig] = useConfig();
   const currentUser = useUser();
   const pathname = usePathname();
   const {window, children} = props;
@@ -46,12 +46,16 @@ export const Navbar = (props: NavbarProps) => {
     {text: t('protected'), href: '/protected', icon: <RemoveIcon/>},
   ];
 
+  const handleLocaleToggle = () => {
+    updateConfig({locale: locale === 'faIR' ? 'enUS' : 'faIR'});
+  }
+
   const handleDirectionToggle = () => {
-    setAppConfig({rtl: !rtl});
+    updateConfig({rtl: !rtl});
   }
 
   const handleThemeToggle = () => {
-    setAppConfig({paletteMode: paletteMode == "light" ? "dark" : "light"});
+    updateConfig({paletteMode: paletteMode === "light" ? "dark" : "light"});
   }
 
   const handleDrawerToggle = () => {
@@ -88,6 +92,9 @@ export const Navbar = (props: NavbarProps) => {
             <Typography variant="h6" noWrap sx={{flexGrow: 1}}>
               {t("appTitle")}
             </Typography>
+            <IconButton onClick={handleLocaleToggle} color="inherit">
+              {locale === 'faIR' ? 'Fa' : 'En'}
+            </IconButton>
             <IconButton onClick={handleDirectionToggle} color="inherit">
               {rtl ? <LToRIcon/> : <RToLIcon/>}
             </IconButton>

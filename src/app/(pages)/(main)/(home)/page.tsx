@@ -1,5 +1,4 @@
 "use client"
-import { useLocales } from "@hooks/useLocales";
 import { Button, Typography } from "@mui/material";
 import { useQuery } from "@tanstack/react-query";
 import { dataService } from "@services/api/dataService";
@@ -9,7 +8,6 @@ import { useUser } from "@hooks/useUser";
 
 const Home = () => {
   const user = useUser();
-  const {changeLocale, currentLocale} = useLocales();
   const {isFetching, refetch} = useQuery({
     queryKey: ["data"],
     queryFn: dataService.getProducts,
@@ -18,11 +16,6 @@ const Home = () => {
 
   return (
       <Page title="Home">
-        <Typography variant="h6" component="span"> Locale: </Typography>
-        <Button onClick={() => changeLocale(currentLocale == "faIR" ? "enUS" : "faIR")}>
-          {currentLocale}
-        </Button>
-        <br/>
         <Typography variant="h6" component="span"> Request: </Typography>
         <LoadingButton loading={isFetching} onClick={() => refetch()}>
           Call
