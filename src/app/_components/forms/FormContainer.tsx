@@ -1,5 +1,5 @@
 'use client'
-import { FormEventHandler, FormHTMLAttributes, PropsWithChildren } from 'react'
+import { FormEventHandler, FormHTMLAttributes, PropsWithChildren } from 'react';
 import {
   FieldValues,
   FormProvider,
@@ -8,7 +8,7 @@ import {
   useForm,
   UseFormProps,
   UseFormReturn,
-} from 'react-hook-form'
+} from 'react-hook-form';
 
 export type FormContainerProps<T extends FieldValues = FieldValues> =
     PropsWithChildren<

@@ -1,4 +1,5 @@
 'use client'
+import { forwardRef, ReactNode, Ref, RefAttributes } from 'react';
 import {
   Control,
   FieldError,
@@ -7,11 +8,10 @@ import {
   PathValue,
   useController,
   UseControllerProps,
-} from 'react-hook-form'
-import { FormControl, FormControlProps, FormHelperText, FormLabel, Slider, SliderProps, } from '@mui/material'
-import { useFormError } from './FormErrorProvider'
-import { forwardRef, ReactNode, Ref, RefAttributes } from 'react'
-import { useTransform } from './useTransform'
+} from 'react-hook-form';
+import { FormControl, FormControlProps, FormHelperText, FormLabel, Slider, SliderProps, } from '@mui/material';
+import { useFormError } from './FormErrorProvider';
+import { useTransform } from './useTransform';
 
 export type SliderElementProps<
     TFieldValues extends FieldValues = FieldValues,
