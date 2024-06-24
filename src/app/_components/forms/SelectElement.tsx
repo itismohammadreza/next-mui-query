@@ -1,6 +1,6 @@
 'use client'
-import { ChangeEvent, forwardRef, ReactNode, Ref, RefAttributes } from 'react'
-import { MenuItem, TextField, TextFieldProps, useForkRef } from '@mui/material'
+import { ChangeEvent, forwardRef, ReactNode, Ref, RefAttributes } from 'react';
+import { MenuItem, TextField, TextFieldProps, useForkRef } from '@mui/material';
 import {
   Control,
   FieldError,
@@ -9,10 +9,10 @@ import {
   PathValue,
   useController,
   UseControllerProps,
-} from 'react-hook-form'
-import { useFormError } from './FormErrorProvider'
-import { useTransform } from './useTransform'
-import { propertyExists } from './utils'
+} from 'react-hook-form';
+import { useFormError } from './FormErrorProvider';
+import { useTransform } from './useTransform';
+import { propertyExists } from './utils';
 
 export type SelectElementProps<
     TFieldValues extends FieldValues = FieldValues,
